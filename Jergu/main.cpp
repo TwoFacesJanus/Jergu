@@ -4,5 +4,6 @@
 // Hello world! 
 int main(int argc, char *argv[]) {
 	printf("Hello World!\n");
+	std::cout << "sosaaaaaaaaaaaaaaat" << std::endl;
 	return 0;
 }
