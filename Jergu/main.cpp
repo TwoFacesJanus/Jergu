@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <iostream>
+#include "about.h"
 
 // Hello world! 
 int main(int argc, char *argv[]) {
-	printf("Hello World!\n");
-	std::cout << "sosaaaaaaaaaaaaaaat" << std::endl;
-	//asddasdasadsads
+	aboutMachine();
 	return 0;
 }
