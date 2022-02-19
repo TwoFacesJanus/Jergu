@@ -4,6 +4,9 @@
 
 // Hello world! 
 int main(int argc, char *argv[]) {
-	aboutMachine();
+	get_Ostype();
+	get_Gpu();
+	get_Cpu();
+	get_Ram();
 	return 0;
 }

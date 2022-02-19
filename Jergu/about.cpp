@@ -5,11 +5,12 @@
 #include <iostream>
 #include <intrin.h>
 #include <dxgi.h>
+#include <windows.h>
 #pragma comment (lib, "dxgi.lib")
 #pragma warning(disable: 4996)
 
 
-std::string get_Ostype() {
+void get_Ostype() {
 	char* ostype = getenv("OSTYPE");
 	std::string OSTYPE;
 
@@ -26,10 +27,10 @@ std::string get_Ostype() {
 			OSTYPE = "Darwin";
 		
 	}
-	return OSTYPE;
+	std::cout << "OS  => " << OSTYPE << std::endl;
 }
 
-std::string get_Cpu() {
+void get_Cpu() {
 	int CPUInfo[4] = { -1 };
 	__cpuid(CPUInfo, 0x80000000);
 	unsigned int nExIds = CPUInfo[0];
@@ -48,10 +49,10 @@ std::string get_Cpu() {
 			memcpy(CPUBrandString + 32, CPUInfo, sizeof(CPUInfo));
 		
 	}
-	return CPUBrandString;
+	std::cout << "CPU => " << CPUBrandString << std::endl;
 }
 
-std::string get_Gpu() {
+void get_Gpu() {
 	IDXGIFactory1* pFactory;
 	HRESULT hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**)(&pFactory));
 	int AdapterNumber = 0;
@@ -59,29 +60,26 @@ std::string get_Gpu() {
 	while (pFactory->EnumAdapters1(AdapterNumber++, &Adapter) != DXGI_ERROR_NOT_FOUND) {
 		DXGI_ADAPTER_DESC1 Desc;
 		Adapter->GetDesc1(&Desc);
-		wprintf(L"Gpu: %s\n", Desc.Description);
+		wprintf(L"GPU => %s\n", Desc.Description);
 		Adapter->Release();
 	}
 	pFactory->Release();
-	return "None";
 }
 
-std::string get_Ip() {
-	
-	return "Hi";
 
-
+void get_Ram() {
+	MEMORYSTATUSEX statex;
+	statex.dwLength = sizeof(statex);
+	GlobalMemoryStatusEx(&statex);
+	std::cout << "RAM => " << (float)statex.ullTotalPhys / (1024 * 1024 * 1024) << std::endl;
 }
 
-std::string get_Mem() {
-	// Get current memory
-	std::string Mem;
-	return Mem;
-}
+
 
 
 void aboutMachine() {
-	std::cout << "OS: " << get_Ostype() << std::endl;
-	std::cout << "CPU: " << get_Cpu() << std::endl;
-	get_Gpu(); // Gpu
+	get_Ostype();
+	get_Cpu();
+	get_Gpu();
+	get_Ram();
 }
