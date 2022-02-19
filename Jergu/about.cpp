@@ -26,7 +26,6 @@ std::string get_Ostype() {
 			OSTYPE = "Darwin";
 		
 	}
-
 	return OSTYPE;
 }
 
@@ -60,7 +59,7 @@ std::string get_Gpu() {
 	while (pFactory->EnumAdapters1(AdapterNumber++, &Adapter) != DXGI_ERROR_NOT_FOUND) {
 		DXGI_ADAPTER_DESC1 Desc;
 		Adapter->GetDesc1(&Desc);
-		wprintf(L"%s\n", Desc.Description);
+		wprintf(L"Gpu: %s\n", Desc.Description);
 		Adapter->Release();
 	}
 	pFactory->Release();
@@ -84,5 +83,5 @@ std::string get_Mem() {
 void aboutMachine() {
 	std::cout << "OS: " << get_Ostype() << std::endl;
 	std::cout << "CPU: " << get_Cpu() << std::endl;
-	get_Gpu();
+	get_Gpu(); // Gpu
 }
