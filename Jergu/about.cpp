@@ -9,7 +9,6 @@
 #pragma comment (lib, "dxgi.lib")
 #pragma warning(disable: 4996)
 
-
 void get_Ostype() {
 	char* ostype = getenv("OSTYPE");
 	std::string OSTYPE;
@@ -25,7 +24,6 @@ void get_Ostype() {
 			OSTYPE = "Linux";
 		else if (strcmp(ostype, "darwin") == 0)
 			OSTYPE = "Darwin";
-		
 	}
 	std::cout << "OS  => " << OSTYPE << std::endl;
 }
@@ -34,8 +32,8 @@ void get_Cpu() {
 	int CPUInfo[4] = { -1 };
 	__cpuid(CPUInfo, 0x80000000);
 	unsigned int nExIds = CPUInfo[0];
-	
 	char CPUBrandString[0x40] = { 0 };
+
 	for (unsigned int i = 0x80000000; i <= nExIds; i++) {
 		__cpuid(CPUInfo, i);
 
@@ -66,20 +64,9 @@ void get_Gpu() {
 	pFactory->Release();
 }
 
-
 void get_Ram() {
 	MEMORYSTATUSEX statex;
 	statex.dwLength = sizeof(statex);
 	GlobalMemoryStatusEx(&statex);
 	std::cout << "RAM => " << (float)statex.ullTotalPhys / (1024 * 1024 * 1024) << std::endl;
-}
-
-
-
-
-void aboutMachine() {
-	get_Ostype();
-	get_Cpu();
-	get_Gpu();
-	get_Ram();
 }
