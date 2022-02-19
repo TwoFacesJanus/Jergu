@@ -4,6 +4,8 @@
 #include <cstring>
 #include <iostream>
 #include <intrin.h>
+#include <dxgi.h>
+#pragma comment (lib, "dxgi.lib")
 #pragma warning(disable: 4996)
 
 
@@ -51,13 +53,22 @@ std::string get_Cpu() {
 }
 
 std::string get_Gpu() {
-	// Get current graphical processor
-	std::string Gpu;
-	return Gpu;
+	IDXGIFactory1* pFactory;
+	HRESULT hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**)(&pFactory));
+	int AdapterNumber = 0;
+	IDXGIAdapter1* Adapter;
+	while (pFactory->EnumAdapters1(AdapterNumber++, &Adapter) != DXGI_ERROR_NOT_FOUND) {
+		DXGI_ADAPTER_DESC1 Desc;
+		Adapter->GetDesc1(&Desc);
+		wprintf(L"%s\n", Desc.Description);
+		Adapter->Release();
+	}
+	pFactory->Release();
+	return "None";
 }
 
 std::string get_Ip() {
-
+	
 	return "Hi";
 
 
@@ -73,4 +84,5 @@ std::string get_Mem() {
 void aboutMachine() {
 	std::cout << "OS: " << get_Ostype() << std::endl;
 	std::cout << "CPU: " << get_Cpu() << std::endl;
+	get_Gpu();
 }
