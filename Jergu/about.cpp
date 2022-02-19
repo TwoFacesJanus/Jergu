@@ -15,13 +15,11 @@ std::string get_Ostype() {
 		ostype = getenv("windir");
 		if (ostype != NULL)
 			OSTYPE = "Windows";
-
 	}
 	else {
 
 		if (strcmp(ostype, "linux") == 0)
 			OSTYPE = "Linux";
-
 		else if (strcmp(ostype, "darwin") == 0)
 			OSTYPE = "Darwin";
 		
@@ -39,15 +37,15 @@ std::string get_Cpu() {
 	for (unsigned int i = 0x80000000; i <= nExIds; i++) {
 		__cpuid(CPUInfo, i);
 
-		if (i == 0x80000002) {
+		if (i == 0x80000002)
 			memcpy(CPUBrandString, CPUInfo, sizeof(CPUInfo));
-		}
-		else if (i == 0x80000003) {
+		
+		else if (i == 0x80000003)
 			memcpy(CPUBrandString + 16, CPUInfo, sizeof(CPUInfo));
-		}
-		else if (i == 0x80000004) {
+		
+		else if (i == 0x80000004)
 			memcpy(CPUBrandString + 32, CPUInfo, sizeof(CPUInfo));
-		}
+		
 	}
 	return CPUBrandString;
 }
