@@ -1,8 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
-#define _CRT_SECURE_NO_WARNINGS
+#include <intrin.h>
 #pragma warning(disable: 4996)
 
 
@@ -23,16 +24,32 @@ std::string get_Ostype() {
 
 		else if (strcmp(ostype, "darwin") == 0)
 			OSTYPE = "Darwin";
-
+		
 	}
 
 	return OSTYPE;
 }
 
 std::string get_Cpu() {
-	// Get current processor
-	std::string Cpu;
-	return Cpu;
+	int CPUInfo[4] = { -1 };
+	__cpuid(CPUInfo, 0x80000000);
+	unsigned int nExIds = CPUInfo[0];
+	
+	char CPUBrandString[0x40] = { 0 };
+	for (unsigned int i = 0x80000000; i <= nExIds; i++) {
+		__cpuid(CPUInfo, i);
+
+		if (i == 0x80000002) {
+			memcpy(CPUBrandString, CPUInfo, sizeof(CPUInfo));
+		}
+		else if (i == 0x80000003) {
+			memcpy(CPUBrandString + 16, CPUInfo, sizeof(CPUInfo));
+		}
+		else if (i == 0x80000004) {
+			memcpy(CPUBrandString + 32, CPUInfo, sizeof(CPUInfo));
+		}
+	}
+	return CPUBrandString;
 }
 
 std::string get_Gpu() {
@@ -42,9 +59,10 @@ std::string get_Gpu() {
 }
 
 std::string get_Ip() {
-	// Get current ip address
-	std::string Ip;
-	return Ip;
+
+	return "Hi";
+
+
 }
 
 std::string get_Mem() {
@@ -55,7 +73,6 @@ std::string get_Mem() {
 
 
 void aboutMachine() {
-	std::cout << get_Ostype() << std::endl;
-
-
+	std::cout << "OS: " << get_Ostype() << std::endl;
+	std::cout << "CPU: " << get_Cpu() << std::endl;
 }
